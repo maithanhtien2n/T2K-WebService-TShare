@@ -12,6 +12,7 @@ app.use(cors());
 
 // Định tuyến các API endpoint
 require("./src/app/authentication/router")(app);
+require("./src/app/api-posts/router")(app);
 
 // Khởi động server
 const port = process.env.PORT || 3000;

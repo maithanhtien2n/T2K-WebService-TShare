@@ -16,13 +16,10 @@ module.exports = (router) => {
     controller.userInfoCT
   );
 
-  // API xác thực token
-  router.post("/api/v1/token-authentication", authenticateToken, (req, res) => {
-    res.json({
-      success: true,
-      statusCode: 200,
-      statusValue: "Xác thực token thành công!",
-      data: req.username,
-    });
-  });
+  // API lấy thông tin tài khoản người dùng
+  router.get(
+    "/api/v1/account-info",
+    authenticateToken,
+    controller.accountInfoCT
+  );
 };

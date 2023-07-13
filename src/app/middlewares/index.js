@@ -9,11 +9,11 @@ const authenticateToken = (req, res, next) => {
     if (!token) {
       throwError(250, "Bạn cần mã token để call được api!");
     }
-    jwt.verify(token, process.env.JWT_SECRET, (error, user_name) => {
+    jwt.verify(token, process.env.JWT_SECRET, (error, account_info) => {
       if (error) {
         throwError(251, "Mã token không chính xác!");
       }
-      req.user_name = user_name;
+      req.account_info = account_info;
       next();
     });
   } catch (error) {

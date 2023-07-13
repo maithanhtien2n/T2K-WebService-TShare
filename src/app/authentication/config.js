@@ -42,6 +42,14 @@ const UsersInfo = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    banner_user: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    avatar_user: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     full_name: {
       type: DataTypes.STRING,
       allowNull: false,

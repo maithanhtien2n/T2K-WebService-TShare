@@ -45,14 +45,20 @@ module.exports = {
     try {
       const account = await Account.findOne({ where: { user_name } });
 
+      const user_info = await UsersInfo.findOne({
+        where: { account_id: account.account_id },
+      });
+
       if (!account || !bcrypt.compareSync(password, account.password)) {
         throwError(205, "Tên tài khoản hoặc mật khẩu không chính xác!");
       }
 
       return {
         account_id: account.account_id,
-        token: jwt.sign(
-          { user_name: account.user_name },
+        user_name: account.user_name,
+        user_info,
+        accessToken: jwt.sign(
+          { account_id: account.account_id, user_name: account.user_name },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         ),
@@ -71,6 +77,14 @@ module.exports = {
       } else {
         return `Không tìm thấy thông tin người dùng có account_id là ${account_id}`;
       }
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  accountInfoMD: async ({ account_info }) => {
+    try {
+      return account_info;
     } catch (error) {
       throw error;
     }

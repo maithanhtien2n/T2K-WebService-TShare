@@ -21,4 +21,10 @@ module.exports = {
       data: { account_id: req.params.id, user_name: req.user_name },
     });
   },
+
+  accountInfoCT: async (req, res) => {
+    await onResponse(req, res, model.accountInfoMD, {
+      data: { account_info: req.account_info },
+    });
+  },
 };
