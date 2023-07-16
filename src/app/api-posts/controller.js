@@ -35,4 +35,12 @@ module.exports = {
       data: { user_id: req.params.id },
     });
   },
+
+  searchCT: async (req, res) => {
+    const { key_search, searchByUser, searchByPosts } = req.body;
+    await onResponse(req, res, model.searchMD, {
+      checkData: ["key_search"],
+      data: { key_search, searchByUser, searchByPosts },
+    });
+  },
 };

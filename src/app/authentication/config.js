@@ -44,11 +44,11 @@ const UsersInfo = sequelize.define(
     },
     banner_user: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     avatar_user: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     full_name: {
       type: DataTypes.STRING,

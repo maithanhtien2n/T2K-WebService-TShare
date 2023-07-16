@@ -15,7 +15,7 @@ require("./src/app/authentication/router")(app);
 require("./src/app/api-posts/router")(app);
 
 // Khởi động server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 7000;
 app.listen(port, () => {
   console.log(`Server is running on port localhost:${port}.`);
 });

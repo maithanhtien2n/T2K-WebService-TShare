@@ -22,4 +22,7 @@ module.exports = (router) => {
 
   // API lấy danh sách bài viết của người dùng
   router.get(`${commonRoute}/posts/:id`, controller.getListPostsCT);
+
+  // API tìm kiếm người dùng và bài viết
+  router.post(`${commonRoute}/search`, controller.searchCT);
 };

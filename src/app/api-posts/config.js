@@ -1,6 +1,6 @@
 const sequelize = require("../../configs/connectDatabase");
 const { DataTypes } = require("sequelize");
-const { UsersInfo } = require("../authentication/config");
+const { UsersInfo, Account } = require("../authentication/config");
 
 const ListPosts = sequelize.define(
   "ListPosts",
@@ -95,6 +95,7 @@ const Comments = sequelize.define(
 );
 
 // Thực hiện ràng buộc
+UsersInfo.belongsTo(Account, { foreignKey: "account_id", as: "account_info" });
 ListPosts.belongsTo(UsersInfo, { foreignKey: "user_id", as: "poster_info" });
 
 ListPosts.hasMany(Likes, { foreignKey: "posts_id", as: "list_like" });
@@ -108,4 +109,5 @@ module.exports = {
   Likes,
   UsersInfo,
   Comments,
+  Account,
 };

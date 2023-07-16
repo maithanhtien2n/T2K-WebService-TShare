@@ -27,4 +27,21 @@ module.exports = {
       data: { account_info: req.account_info },
     });
   },
+
+  // ------------------------------ API TRANG CÁ NHÂN ---------------------------------
+
+  updateAvatarCT: async (req, res) => {
+    const { user_id } = req.body;
+    // Đường dẫn tệp ảnh banner
+    const avatar_user = `http://${req.headers.host}/uploads/${
+      req.files["avatar_user"] === undefined
+        ? "null"
+        : req.files["avatar_user"][0].filename
+    }`;
+
+    await onResponse(req, res, model.updateAvatarMD, {
+      checkData: ["user_id"],
+      data: { user_id, avatar_user },
+    });
+  },
 };

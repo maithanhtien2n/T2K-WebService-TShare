@@ -42,4 +42,24 @@ module.exports = {
       statusValue,
     };
   },
+
+  removeVietnameseAccents: (str) => {
+    const mapAccents = {
+      a: "áàảãạăắằẳẵặâấầẩẫậ",
+      e: "éèẻẽẹêếềểễệ",
+      i: "íìỉĩị",
+      o: "óòỏõọôốồổỗộơớờởỡợ",
+      u: "úùủũụưứừửữự",
+      y: "ýỳỷỹỵ",
+      d: "đ",
+    };
+
+    for (let char in mapAccents) {
+      const accents = mapAccents[char];
+      const regex = new RegExp(`[${accents}]`, "g");
+      str = str.replace(regex, char);
+    }
+
+    return str;
+  },
 };

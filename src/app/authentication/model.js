@@ -1,5 +1,6 @@
 const { Account, UsersInfo } = require("./config");
 const { throwError } = require("../../utils/index");
+const { deleteFile, getFileName } = require("../../utils/handleUploads");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -85,6 +86,33 @@ module.exports = {
   accountInfoMD: async ({ account_info }) => {
     try {
       return account_info;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // ---------------------- API TRANG CÁ NHÂN ---------------------------------
+
+  updateAvatarMD: async ({ user_id, avatar_user }) => {
+    try {
+      const usersInfo = await UsersInfo.findOne({ where: { user_id } });
+
+      if (!usersInfo) {
+        deleteFile([getFileName(avatar_user)]);
+        throwError(204, "Không tìm thấy id người dùng!");
+      }
+
+      if (getFileName(avatar_user) === "null") {
+        throwError(205, "Lỗi tải ảnh không thành công!");
+      }
+
+      if (usersInfo.avatar_user) {
+        deleteFile([getFileName(usersInfo.avatar_user)]);
+      }
+
+      await UsersInfo.update({ avatar_user }, { where: { user_id } });
+
+      return "Cập nhật ảnh đại diện thành công!";
     } catch (error) {
       throw error;
     }

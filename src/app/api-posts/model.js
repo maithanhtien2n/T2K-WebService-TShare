@@ -1,6 +1,7 @@
-const { ListPosts, Likes, UsersInfo, Comments } = require("./config");
-const { throwError } = require("../../utils/index");
+const { ListPosts, Likes, UsersInfo, Comments, Account } = require("./config");
+const { throwError, removeVietnameseAccents } = require("../../utils/index");
 const { deleteFile, getFileName } = require("../../utils/handleUploads");
+const { Op } = require("sequelize");
 require("dotenv").config();
 
 module.exports = {
@@ -97,6 +98,47 @@ module.exports = {
       });
 
       return listPosts.reverse();
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  searchMD: async ({ key_search, searchByUser, searchByPosts }) => {
+    try {
+      const users = await UsersInfo.findAll({
+        where: {
+          full_name: {
+            [Op.like]: `%${key_search}%`, // Sử dụng Op.like để thực hiện tìm kiếm gần đúng
+          },
+        },
+        include: [
+          {
+            model: Account,
+            as: "account_info",
+            attributes: ["account_id", "user_name"],
+          },
+        ],
+      });
+
+      const posts = await ListPosts.findAll({
+        where: {
+          posts_content: {
+            [Op.like]: `%${key_search}%`, // Sử dụng Op.like để thực hiện tìm kiếm gần đúng
+          },
+        },
+        include: [
+          {
+            model: UsersInfo,
+            as: "poster_info",
+            attributes: ["full_name", "avatar_user"],
+          },
+        ],
+      });
+
+      return {
+        users,
+        posts,
+      };
     } catch (error) {
       throw error;
     }
